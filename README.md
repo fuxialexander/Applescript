@@ -7,7 +7,7 @@ Apps you need: Omnifocus 2, [Fantastical 2](https://flexibits.com/fantastical) a
 2. Put the "omni_tyme" script in Omnifocus 2 script folder
 1. Put the "tyme_applescript_hooks.scpt" in ~/Library/Application Scripts/de.nulldesign.tyme.osx/ (**You may need to create this directory**)
 1. Create a button in Omnifocus toolbar
-1. **[Alternative]** If you have Alfred, there is an modified version of [Omnifocus Create](http://www.alfredforum.com/topic/5821-omnifocus-create-yet-another/?hl=omnifocus) workflow made by me available [here]() which will let you *create last through Alfred and directly add the task to Tyme*
+1. **[Alternative]** If you have Alfred, there is an modified version of [Omnifocus Create](http://www.alfredforum.com/topic/5821-omnifocus-create-yet-another/?hl=omnifocus) workflow made by me available below which will let you *create last through Alfred and directly add the task to Tyme*
    P.S. You may need to install these package through '''gem install XXX''' in terminal before using the workflow. ***bundler, plist, alfred-workflow, rb-appscript***
 
 
