@@ -10,7 +10,7 @@ Apps you need: Omnifocus 2, [Fantastical 2](https://flexibits.com/fantastical) a
    
 ###Features
 #### From Omnifocus to Tyme
- 1. Select **any number of any** task (w/wo child/due date/estimated time), add **the select task** *(if it contains no child)* or **all leaf task in its child** *(which means those contains no child tasks ---representing all the single actions you can do.)* to Tyme 2. [**Caution**: Please do not select both a parent and its child, it might lead to double adding of the child.] (The subtask feature is not accessible from the Applescript interface, so sorry, the task hierarchy can't be reserved, but I believe my workaround above should be reasonable and usable).
+ 1. Select **any number of any** task (w/wo child/due date/estimated time), add **the select task** *(if it contains no child)* or **all leaf task in its child** *(which means those contains no child tasks ---representing all the single actions you can do.)* to Tyme 2. **Caution**: Please do not select both a parent and its child, it might lead to double adding of the child. (The subtask feature is not accessible from the Applescript interface, so sorry, the task hierarchy can't be reserved, but I believe my workaround above should be reasonable and usable).
 
  2. If the task contains any info, like estimated time/ due date, it will be pass to tyme 2. (notes won't be passed since tyme 2 only allows notes in time records).
  3. If the parent project in omnifocus is not present in tyme 2, it will create one for you.
