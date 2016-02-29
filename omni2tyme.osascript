@@ -1,0 +1,47 @@
+activate "OmniFocus"
+tell application "OmniFocus"
+	tell front window
+		set my_sel to selected trees of content
+		set ptask to value of item 1 of my_sel
+		my tell_tyme(ptask)
+		set ftask to flattened tasks of ptask
+		repeat with my_selection in ftask
+			if (number of tasks of my_selection = 0 and completed of my_selection is not true) then
+				my tell_tyme(my_selection)
+			end if
+		end repeat
+	end tell
+end tell
+
+on tell_tyme(my_selection)
+	tell application "OmniFocus"
+		tell front window
+			set tsk to name of my_selection
+			set havedue to false
+			if due date of my_selection is not missing value then
+				set due to due date of my_selection
+				set havedue to true
+			end if
+			
+			if (estimated minutes of my_selection is not missing value) then
+				set esti to (estimated minutes of my_selection) * 60 as real
+			else
+				set esti to 0 as real
+			end if
+			set proj to name of containing project of my_selection
+			
+			tell application "Tyme2"
+				set judge to false
+				repeat with someproj in every project
+					if ((name of someproj) is proj) then set judge to true
+				end repeat
+				if (judge is false) then make new project with properties {name:proj}
+			end tell
+			if (havedue is true) then
+				tell application "Tyme2" to make new task of (project proj) of application "Tyme2" with properties {name:tsk, taskType:"timed", completed:false, dueDate:due, timedPlannedDuration:esti}
+			else
+				tell application "Tyme2" to make new task of (project proj) of application "Tyme2" with properties {name:tsk, taskType:"timed", completed:false, timedPlannedDuration:esti}
+			end if
+		end tell
+	end tell
+end tell_tyme

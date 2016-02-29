@@ -1,0 +1,95 @@
+on timerStartedForTaskRecord(tskRecordID)
+	
+	(*
+	tell application "Tyme2"
+		GetRecordWithID tskRecordID
+		set tskID to relatedTaskID of lastFetchedTaskRecord
+		set tsk to the first item of (every task of every project whose id = tskID)
+		set tskName to name of tsk
+		say tskName
+	end tell
+*)
+	
+end timerStartedForTaskRecord
+
+on timerStoppedForTaskRecord(tskRecordID)
+	tell application "Tyme2"
+		GetRecordWithID tskRecordID
+		if recordType of lastFetchedTaskRecord is equal to "timed" then
+			set prjid to relatedProjectID of lastFetchedTaskRecord
+			set tskid to relatedTaskID of lastFetchedTaskRecord
+			set prj to the first item of (every project whose id = prjid)
+			set tsk to the first item of (every task of every project whose id = tskid)
+			set tname to name of tsk
+			set pname to name of prj
+			set nt to note of lastFetchedTaskRecord
+			set strt to (timeStart of lastFetchedTaskRecord)
+			set ed to (timeEnd of lastFetchedTaskRecord)
+			set strttime to time string of strt
+			set edtime to time string of ed
+			set cat to tname & " today " & strttime & "-" & edtime as string
+			tell application "Fantastical 2"
+				parse sentence cat notes nt calendarName pname with add immediately
+			end tell
+		end if
+	end tell
+end timerStoppedForTaskRecord
+
+on timeoutDetectedForTaskRecord(tskRecordID)
+	
+	(*
+	tell application "Tyme2"
+		GetRecordWithID tskRecordID
+		set tskid to relatedTaskID of lastFetchedTaskRecord
+		set tsk to the first item of (every task of every project whose id = tskid)
+		set tskName to name of tsk
+		say tskName
+	end tell
+*)
+	
+end timeoutDetectedForTaskRecord
+
+on projectCompletedChanged(projectID)
+	
+	(*
+	tell application "Tyme2"
+		set prj to the first item of (every project whose id = projectID)
+		set prjName to name of prj
+		say prjName
+	end tell
+*)
+	
+end projectCompletedChanged
+
+on taskCompletedChanged(tskid)
+	tell application "Tyme2"
+		set tsk to the first item of (every task of every project whose id = tskid)
+		set prj to the first item of (every project whose id = (relatedProjectID of tsk))
+		set pname to name of prj
+		set tname to name of tsk
+		set cd to completedDate of tsk
+		tell application "OmniFocus"
+			tell default document
+				set opro to the first item of (flattened projects whose name is pname)
+				set otsk to the first item of ((flattened tasks of opro) whose name is tname)
+				set completion date of otsk to cd
+			end tell
+		end tell
+		
+		
+		(*
+		tell application "Reminders"
+			set opro to the first item of (lists whose name is pname)
+			try
+				set otsk to the first item of ((reminders of opro) whose name is tname)
+				set completion date of otsk to cd
+			on error
+				activate application "Reminders"
+				tell application "System Events" to keystroke "z" using {command down}
+				activate application "Tyme2"
+			end try
+		end tell
+		*)
+		
+	end tell
+end taskCompletedChanged
