@@ -22,7 +22,7 @@ end tell
 on tell_tyme(my_selection)
 	tell application "OmniFocus"
 		tell front window
-			set tsk to name of my_selection
+			set task_name to name of my_selection
 			set havedue to false
 			if due date of my_selection is not missing value then
 				set due to due date of my_selection
@@ -34,22 +34,28 @@ on tell_tyme(my_selection)
 			else
 				set esti to 0 as real
 			end if
-			set proj to name of containing project of my_selection
+			set proj_name to name of containing project of my_selection
 			
 			tell application "Tyme2"
-				set judge to false
-				repeat with someproj in every project
-					if ((name of someproj) is proj) then set judge to true
+				set make_new_project to true
+				set make_new_task to true
+				repeat with existed_project in every project
+					if ((name of existed_project) is proj_name) then set make_new_project to false
+					repeat with existed_task in every task in existed_project
+						if ((name of existed_task) is task_name and (completed of existed_task) is false) then set make_new_task to false
+					end repeat
+					
 				end repeat
-				if (judge is false) then make new project with properties {name:proj}
+				if (make_new_project) then make new project with properties {name:proj_name}
+				
+				if (make_new_task) then
+					if (havedue is true) then
+						make new task of (project proj_name) with properties {name:task_name, taskType:"timed", completed:false, timedPlannedDuration:esti, dueDate:due}
+					else
+						make new task of (project proj_name) with properties {name:task_name, taskType:"timed", completed:false, timedPlannedDuration:esti}
+					end if
+				end if
 			end tell
-			
-			if (havedue is true) then
-				tell application "Tyme2" to make new task of (project proj) of application "Tyme2" with properties {name:tsk, taskType:"timed", completed:false, dueDate:due, timedPlannedDuration:esti}
-			else
-				tell application "Tyme2" to make new task of (project proj) of application "Tyme2" with properties {name:tsk, taskType:"timed", completed:false, timedPlannedDuration:esti}
-			end if
-			
 		end tell
 	end tell
 end tell_tyme
