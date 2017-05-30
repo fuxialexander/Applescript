@@ -2,7 +2,7 @@ activate "OmniFocus"
 tell application "OmniFocus"
 	tell front window
 		set my_sel to selected trees of content
-		repeat with ptaskt in my_sel
+		repeat with ptaskt in reverse of my_sel
 			set ptask to value of ptaskt
 			set ftask to flattened tasks of ptask
 			set haschild to false
